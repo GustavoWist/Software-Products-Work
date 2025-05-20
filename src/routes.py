@@ -5,7 +5,8 @@ from config import Config, db
 from Application.Controller.product_controller import ProductController
 from Infrastructure.Http.whatsapp import WhatsAppService
 from flask_cors import CORS
-
+from Infrastructure.Models.sales_model import Sales
+from Application.Controller.sales_controller import SalesController
 app = Flask(__name__)
 app.config.from_object(Config)
 CORS(app)
@@ -29,6 +30,8 @@ app.route('/assets/<path:filename>', methods=['GET'])(ProductController.serve_as
 app.route('/produtos/<int:produto_id>/imagem', methods=['POST'])(ProductController.atualizar_imagem)
 app.route('/produtos/<int:id>', methods=['GET'])(ProductController.get_produto)
 app.route('/produtos/<int:id>', methods=['PUT'])(ProductController.atualizar_produto)
+app.route('/vendas', methods=['POST'])(SalesController.registrar_venda)
+app.route('/vendas', methods=['GET'])(SalesController.historico_vendas)
 
 if __name__ == "__main__":
     app.run(debug=True)
