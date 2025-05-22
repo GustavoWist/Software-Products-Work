@@ -41,8 +41,9 @@ class ProductController:
 
 
     @staticmethod
-    def listar_produtos():
-        produtos = Products.query.all()
+    @token_obrigatorio
+    def listar_produtos(user_email):
+        produtos = Products.query.filter_by(user_email=user_email).all()
         return jsonify([{
             "id": p.id,
             "nome": p.nome,
